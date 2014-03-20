@@ -34,6 +34,14 @@ Polymer( "quetzal-fixed-aspect", {
     this._layout();
   },
 
+  attached: function() {
+    /* TODO: Verify this resize handler is torn down if element leaves view. */
+    window.addEventListener( "resize", function() {
+      this.checkForSizeChange();
+    }.bind( this ));
+    this.checkForSizeChange();
+  },
+
   /* Force a check to see if the size changed and, if so, call sizeChanged. */
   checkForSizeChange: function() {
     var height = this.offsetHeight;
@@ -44,14 +52,6 @@ Polymer( "quetzal-fixed-aspect", {
       this._savedSize = { height: height, width: width };
       this.sizeChanged();
     }
-  },
-
-  enteredView: function() {
-    /* TODO: Verify this resize handler is torn down if element leaves view. */
-    window.addEventListener( "resize", function() {
-      this.checkForSizeChange();
-    }.bind( this ));
-    this.checkForSizeChange();
   },
 
   /* Respond to a change in size. */
